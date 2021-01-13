@@ -1,8 +1,9 @@
 from flask import render_template, flash, redirect, url_for, request
 from rbac import app, db, bcrypt
 from rbac.forms import RegistrationForm, LoginForm
-from rbac.models import User
+from rbac.models import User, Role, UserRoles
 from flask_login import login_user, current_user, logout_user, login_required
+from flask_user import roles_required
 
 @app.route("/")
 def home():
