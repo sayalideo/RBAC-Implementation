@@ -3,7 +3,8 @@ from rbac import app, db, bcrypt
 from rbac.forms import RegistrationForm, LoginForm
 from rbac.models import User, Role, UserRoles
 from flask_login import login_user, current_user, logout_user, login_required
-from flask_user import roles_required
+
+
 
 @app.route("/")
 def home():
@@ -50,4 +51,6 @@ def logout():
 @app.route("/admin")
 @login_required
 def admin():
+    if 'CP' not in current_user.roles:
+        return redirect(url_for('home'))
     return render_template('admin.html')

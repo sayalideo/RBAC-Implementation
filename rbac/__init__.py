@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_user import UserManager
 
 app = Flask(__name__)
 
@@ -15,3 +16,4 @@ login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
 from rbac import routes
+from rbac.models import User
