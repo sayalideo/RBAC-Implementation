@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="jumbotron">
+        <h3>Username : {{u.username}}</h3><br>
+        <h4>Roles Assigned : 
+            {% for role in roles %}
+            {{ role }}
+            {% endfor %}
+        </h4>
+    </div>
+{% endblock content %}

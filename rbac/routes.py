@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from rbac import app, db, bcrypt
-from rbac.forms import RegistrationForm, LoginForm#, AddRoleForm
+from rbac.forms import RegistrationForm, LoginForm, AddRoleForm
 from rbac.models import User, Role, UserRoles
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -81,3 +81,21 @@ def delete_roles(id):
     db.session.delete(r)
     db.session.commit()
     return redirect(url_for('all_routes'))
+
+@app.route("/add_roles/<id>", methods=['GET','POST'])
+@login_required
+def add_roles(id):
+    form = AddRoleForm()
+    u = User.query.get(id)
+    if form.validate_on_submit():
+        r = Role.query.filter_by(name=form.name.data).first()
+        if r:
+            u.roles.append(r)
+            db.session.add(u)
+            db.session.commit()
+        return redirect(url_for('add_roles',id=id))
+    
+    roles = []
+    for role in u.roles:
+        roles.append(role.name)
+    return render_template('add_roles.html',u=u,roles=roles)

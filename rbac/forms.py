@@ -19,4 +19,8 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember me')
     submit = SubmitField('Login')
+
+class AddRoleForm(FlaskForm):
+    name = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    submit = SubmitField('Add Role')
     
