@@ -4,7 +4,7 @@
         <h2>Username : {{u.username}}</h2><br>
         <h4>Roles Assigned : <br>
             {% for role in roles %}
-            {{ role.name }} <button style="margin-left: 3rem;" class="btn btn-outline-danger"><a href="{{ url_for('delete_userrole',rid=role.id,uid=u.id) }}">Delete Role</a> </button>
+            {{loop.index}}. {{ role.name }}&nbsp; &nbsp; <a href="{{ url_for('delete_userrole',rid=role.id,uid=u.id) }}" class="btn btn-outline-danger" >Delete Role</a> 
             <br>
             {% endfor %}
         </h4>
