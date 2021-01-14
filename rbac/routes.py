@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from rbac import app, db, bcrypt
-from rbac.forms import RegistrationForm, LoginForm
+from rbac.forms import RegistrationForm, LoginForm#, AddRoleForm
 from rbac.models import User, Role, UserRoles
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -51,6 +51,33 @@ def logout():
 @app.route("/admin")
 @login_required
 def admin():
-    if 'CP' not in current_user.roles:
+    roles = current_user.roles
+    flag = 0
+    for r in roles:
+        if 'CP' == r.name:
+            flag = 1
+            break
+    if flag == 0:
         return redirect(url_for('home'))
-    return render_template('admin.html')
+    users = User.query.all()
+    return render_template('admin.html',users=users)
+
+@app.route("/all_roles", methods=['GET', 'POST'])
+@login_required
+def all_roles():
+    form = AddRoleForm()
+    roles = Role.query.all()
+    if form.validate_on_submit():
+        r = Role(name=form.name.data)
+        db.session.add(r)
+        db.session.commit()
+        return redirect(url_for('all_roles'))   
+    return render_template('all_roles.html',roles=roles)
+
+@app.route("/delete_role/<id>", methods=['POST'])
+@login_required
+def delete_roles(id):
+    r = Role.query.get(id)
+    db.session.delete(r)
+    db.session.commit()
+    return redirect(url_for('all_routes'))
