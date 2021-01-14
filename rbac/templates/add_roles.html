@@ -1,10 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="jumbotron">
-        <h3>Username : {{u.username}}</h3><br>
-        <h4>Roles Assigned : 
+        <h2>Username : {{u.username}}</h2><br>
+        <h4>Roles Assigned : <br>
             {% for role in roles %}
-            {{ role }}
+            {{ role.name }} <button style="margin-left: 3rem;" class="btn btn-outline-danger"><a href="{{ url_for('delete_userrole',rid=role.id,uid=u.id) }}">Delete Role</a> </button>
+            <br>
             {% endfor %}
         </h4>
     </div>
@@ -12,8 +13,8 @@
     <form action="" method="POST">
         {{ form.hidden_tag() }}
         <fieldset>
-            <legend>Add Roles : </legend>
-            {{ form.name.label(class="form-control-label")}}
+            <legend>Add Roles : </legend><br><br>
+            <h4>{{ form.name.label(class="form-control-label")}}</h4>
 
             {% if form.name.errors %}
         
@@ -29,7 +30,11 @@
                         {{ form.name(class="form-control form-control-lg is-valid") }}
         
             {% endif %}
-            <br>
+            Choose from : 
+            {% for role in allroles %}
+            {{ role }}
+            {% endfor %}
+            <br><br>
             {{ form.submit(class="btn btn-outline-info")}}
         </fieldset>
     </form>

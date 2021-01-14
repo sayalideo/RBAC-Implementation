@@ -74,13 +74,23 @@ def all_roles():
         return redirect(url_for('all_roles'))   
     return render_template('all_roles.html',roles=roles)
 
-@app.route("/delete_role/<id>", methods=['POST'])
+@app.route("/delete_role/<id>")
 @login_required
-def delete_roles(id):
+def delete_role(id):
     r = Role.query.get(id)
     db.session.delete(r)
     db.session.commit()
-    return redirect(url_for('all_routes'))
+    return redirect(url_for('all_roles'))
+
+@app.route("/delete_userrole/<rid>/<uid>")
+@login_required
+def delete_userrole(rid,uid):
+    u = User.query.get(uid)
+    r = Role.query.get(rid)
+    u.roles.remove(r)
+    db.session.add(u)
+    db.session.commit()
+    return redirect(url_for('add_roles',id=uid))
 
 @app.route("/add_roles/<id>", methods=['GET','POST'])
 @login_required
@@ -95,7 +105,8 @@ def add_roles(id):
             db.session.commit()
         return redirect(url_for('add_roles',id=id))
     
-    roles = []
-    for role in u.roles:
-        roles.append(role.name)
-    return render_template('add_roles.html',form=form,u=u,roles=roles)
+    allroles = []
+    allr = Role.query.all()
+    for role in allr:
+        allroles.append(role.name)
+    return render_template('add_roles.html',form=form,u=u,roles=u.roles,allroles = allroles)
