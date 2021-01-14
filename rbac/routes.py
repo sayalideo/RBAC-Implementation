@@ -98,4 +98,4 @@ def add_roles(id):
     roles = []
     for role in u.roles:
         roles.append(role.name)
-    return render_template('add_roles.html',u=u,roles=roles)
+    return render_template('add_roles.html',form=form,u=u,roles=roles)

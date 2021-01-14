@@ -8,4 +8,29 @@
             {% endfor %}
         </h4>
     </div>
+    <br><br>
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <legend>Add Roles : </legend>
+            {{ form.name.label(class="form-control-label")}}
+
+            {% if form.name.errors %}
+        
+                        {{ form.name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span> {{ error }} </span>
+                            {% endfor %}
+        
+                        </div>
+            {% else %}
+        
+                        {{ form.name(class="form-control form-control-lg is-valid") }}
+        
+            {% endif %}
+            <br>
+            {{ form.submit(class="btn btn-outline-info")}}
+        </fieldset>
+    </form>
 {% endblock content %}
