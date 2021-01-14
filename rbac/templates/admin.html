@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<legend class="border-bottom mb-4">WELCOME ADMIN!</legend>
+<br><br>
+<button style="margin-left: 3rem;" class="btn btn-outline-info"><a href="{{ url_for('all_roles') }}">View Roles</a> </button><br><br>
+<br><br>
+<h4 class="border-bottom mb-4">All users :-</h4>
+{% for user in users %}
+   {{ user.username }} <button style="margin-left: 3rem;" class="btn btn-outline-info"><a href="{{ url_for('all_roles') }}">View All Roles</a> </button><br><br>
+{% endfor %}
+</div>
+{% endblock content %}
