@@ -4,9 +4,9 @@ from rbac.forms import RegistrationForm, LoginForm, AddRoleForm
 from rbac.models import User, Role, UserRoles
 from flask_login import login_user, current_user, logout_user, login_required
 
-def get_role():
+def get_role(user):
     i = 0
-    for role in current_user.roles:
+    for role in user.roles:
         if role.name == 'CP':
             role = 'CP'
             break
@@ -27,14 +27,14 @@ def get_role():
             break
         elif role.name == 'ET':
             role = 'ET'
-            for j in range(i+1,len(current_user.roles)):
-                if current_user.roles[j].name == 'EH':
+            for j in range(i+1,len(user.roles)):
+                if user.roles[j].name == 'EH':
                     role = 'EH'
                     break
         elif role.name == 'PRT':
             role = 'PRT'
-            for j in range(i+1,len(current_user.roles)):
-                if current_user.roles[j].name == 'PRH':
+            for j in range(i+1,len(user.roles)):
+                if user.roles[j].name == 'PRH':
                     role = 'PRH'
                     break
         else:
@@ -46,7 +46,7 @@ def get_role():
 def home():
     role =''
     if current_user.is_authenticated:
-        role = get_role()
+        role = get_role(current_user)
     return render_template('home.html',role=role)
 
 @app.route("/register", methods=['GET','POST'])
@@ -87,15 +87,40 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+def get_user_by_role():
+    users = User.query.all()
+    cp,vcp,dh,eh,prh,tr,prt,et,nm = [],[],[],[],[],[],[],[],[]
+    for user in users:
+        role = get_role(user)
+        if role == 'CP':
+            cp.append(user)
+        elif role == 'VCP':
+            vcp.append(user)
+        elif role == 'DH':
+            dh.append(user)
+        elif role == 'EH':
+            eh.append(user)
+        elif role == 'PRH':
+            prh.append(user)
+        elif role == 'TR':
+            tr.append(user)
+        elif role == 'PRT':
+            prt.append(user)
+        elif role == 'ET':
+            et.append(user)
+        else:
+            nm.append(user)
+    return cp,vcp,dh,eh,prh,tr,prt,et,nm
+
 @app.route("/admin")
 @login_required
 def admin():
-    if get_role() != 'CP':
+    if get_role(current_user) != 'CP':
         return redirect(url_for('home'))
-    users = User.query.all()
-    return render_template('admin.html',users=users)
+    cp,vcp,dh,eh,prh,tr,prt,et,nm = get_user_by_role()
+    return render_template('admin.html',cp=cp,vcp=vcp,dh=dh,eh=eh,prh=prh,tr=tr,prt=prt,et=et,nm=nm)
 
-@app.route("/admin")
+@app.route("/vcp_dashboard")
 @login_required
 def vcp_dashboard():
     if get_role() != 'VCP':

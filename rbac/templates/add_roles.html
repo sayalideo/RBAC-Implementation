@@ -13,7 +13,8 @@
     <form action="" method="POST">
         {{ form.hidden_tag() }}
         <fieldset>
-            <legend>Add Roles : </legend><br><br>
+            <legend>Assign Roles to <i> {{ u.username }}</i> : </legend>
+            <hr>
             <h4>{{ form.name.label(class="form-control-label")}}</h4>
 
             {% if form.name.errors %}
@@ -35,7 +36,9 @@
             {{ role }}
             {% endfor %}
             <br><br>
-            {{ form.submit(class="btn btn-outline-info")}}
+            {{ form.submit(class="btn btn-outline-success btn-lg")}}
         </fieldset>
     </form>
+    <br><br><br>
+    <a href="{{ url_for('admin') }}" class="btn btn-outline-dark" >Back To Dashboard</a>
 {% endblock content %}
