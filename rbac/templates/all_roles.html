@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="jumbotron">
+        <h4>All Roles : <br>
+            {% for role in roles %}
+            {{ role.name }} <button style="margin-left: 3rem;" class="btn btn-outline-danger"><a href="{{ url_for('delete_role',rid=role.id) }}">Delete Role</a> </button>
+            <br>
+            {% endfor %}
+        </h4>
+    </div>
+    <br><br>
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <legend>Add Roles : </legend><br><br>
+
+            {% if form.name.errors %}
+        
+                        {{ form.name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span> {{ error }} </span>
+                            {% endfor %}
+        
+                        </div>
+            {% else %}
+        
+                        {{ form.name(class="form-control form-control-lg is-valid") }}
+        
+            {% endif %}
+            {{ form.submit(class="btn btn-outline-info")}}
+        </fieldset>
+    </form>
+{% endblock content %}

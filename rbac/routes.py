@@ -42,6 +42,7 @@ def get_role(user):
         i = i + 1
     return role
 
+
 @app.route("/")
 def home():
     role =''
@@ -137,12 +138,12 @@ def all_roles():
         db.session.add(r)
         db.session.commit()
         return redirect(url_for('all_roles'))   
-    return render_template('all_roles.html',roles=roles)
+    return render_template('all_roles.html',form=form,roles=roles)
 
-@app.route("/delete_role/<id>")
+@app.route("/delete_role/<rid>")
 @login_required
-def delete_role(id):
-    r = Role.query.get(id)
+def delete_role(rid):
+    r = Role.query.get(rid)
     db.session.delete(r)
     db.session.commit()
     return redirect(url_for('all_roles'))
