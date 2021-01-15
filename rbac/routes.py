@@ -124,7 +124,7 @@ def admin():
 @app.route("/vcp_dashboard")
 @login_required
 def vcp_dashboard():
-    if get_role() != 'VCP':
+    if get_role(current_user) != 'VCP':
         return redirect(url_for('home'))
     return render_template('vcp_dashboard.html')
 
