@@ -2,6 +2,22 @@
 {% block content %}
 <img src="../static/bar.png" alt=""> <br><br>
 <div>
-    <h1>Welcome To National Service Scheme - NITK Portal</h1>
+    <h1>Welcome To National Service Scheme - Institute Portal</h1>
 </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    {% if current_user.is_authenticated %}
+        {% if role=='CP' %}
+            <a href="{{ url_for('admin') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
+        {% elif role=='VCP' %}
+        <a href="{{ url_for('vcp_dashboard') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
+        {% endif %}
+        &nbsp; &nbsp;
+        <a href="{{ url_for('logout') }}" class="nav-link btn btn-outline-info btn-lg">Logout</a>
+    {% else %}
+        <a href="{{ url_for('register') }}" class="nav-link btn btn-outline-info btn-lg">Register</a> &nbsp; &nbsp;
+        <a href="{{ url_for('login') }}" class="nav-link btn btn-outline-info btn-lg">Login</a> &nbsp; &nbsp;
+    {% endif %}
+</nav>
+
+
 {% endblock content %}

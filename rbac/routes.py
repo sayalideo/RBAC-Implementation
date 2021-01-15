@@ -4,11 +4,50 @@ from rbac.forms import RegistrationForm, LoginForm, AddRoleForm
 from rbac.models import User, Role, UserRoles
 from flask_login import login_user, current_user, logout_user, login_required
 
-
+def get_role():
+    i = 0
+    for role in current_user.roles:
+        if role.name == 'CP':
+            role = 'CP'
+            break
+        elif role.name == 'VCP':
+            role = 'VCP'
+            break
+        elif role.name == 'EH':
+            role = 'ET'
+            break
+        elif role.name == 'PRH':
+            role = 'PRH'
+            break
+        elif role.name == 'TR':
+            role = 'TR'
+            break
+        elif role.name == 'DH':
+            role = 'DH'
+            break
+        elif role.name == 'ET':
+            role = 'ET'
+            for j in range(i+1,len(current_user.roles)):
+                if current_user.roles[j].name == 'EH':
+                    role = 'EH'
+                    break
+        elif role.name == 'PRT':
+            role = 'PRT'
+            for j in range(i+1,len(current_user.roles)):
+                if current_user.roles[j].name == 'PRH':
+                    role = 'PRH'
+                    break
+        else:
+            role = 'NM'
+        i = i + 1
+    return role
 
 @app.route("/")
 def home():
-    return render_template('home.html')
+    role =''
+    if current_user.is_authenticated:
+        role = get_role()
+    return render_template('home.html',role=role)
 
 @app.route("/register", methods=['GET','POST'])
 def register():
@@ -51,16 +90,17 @@ def logout():
 @app.route("/admin")
 @login_required
 def admin():
-    roles = current_user.roles
-    flag = 0
-    for r in roles:
-        if 'CP' == r.name:
-            flag = 1
-            break
-    if flag == 0:
+    if get_role() != 'CP':
         return redirect(url_for('home'))
     users = User.query.all()
     return render_template('admin.html',users=users)
+
+@app.route("/admin")
+@login_required
+def vcp_dashboard():
+    if get_role() != 'VCP':
+        return redirect(url_for('home'))
+    return render_template('vcp_dashboard.html')
 
 @app.route("/all_roles", methods=['GET', 'POST'])
 @login_required

@@ -17,7 +17,7 @@
 <br><br>
 <h4 class="border-bottom mb-4">All users :-</h4>
 {% for user in users %}
-   {{loop.index}}.  {{ user.username }} <button style="margin-left: 3rem;" class="btn btn-outline-info"><a href="{{ url_for('add_roles',id=user.id) }}">View User</a> </button><br><br>
+   {{loop.index}}. &nbsp; {{ user.username }} <a class="btn btn-outline-info btn-lg" href="{{ url_for('add_roles',id=user.id) }}">View User</a><br><br>
 {% endfor %}
 </div>
 {% endblock content %}
