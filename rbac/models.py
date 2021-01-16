@@ -2,7 +2,7 @@ from rbac import db, login_manager
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
-
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -44,3 +44,33 @@ class UserRoles(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
 
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+    description = db.Column(db.String(200), unique=True, nullable=False)
+    event_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    status = db.Column(db.String(20), nullable=False, default=False) #0=not approved; 1=approved; 2=done
+
+class Fund(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    amount = db.Column(db.Integer)
+    description = db.Column(db.String(200), nullable=False)
+    event_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    status = db.Column(db.String(20), nullable=False) #0=not approved; 1=approved;
+
+class Advertisement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(200), nullable=False)
+    college_list = db.relationship('College', backref='advertisement', lazy=True)
+    status = db.Column(db.String(20), nullable=False) #0=not approved; 1=approved;
+
+class College(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True) 
+    advt_id = db.Column(db.Integer, db.ForeignKey('advertisement.id'), nullable=False)
+
+class Report(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(200), nullable=False)
+    status = db.Column(db.String(20), nullable=False) #0=not approved; 1=approved;
