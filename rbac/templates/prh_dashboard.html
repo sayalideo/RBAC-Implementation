@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div>
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <legend class="border-bottom mb-4">ADD ADVERTISEMENT</legend>
+            <div class="form-group">
+                {{ form.description.label(class="form-control-label") }}
+                {% if form.description.errors %}
+                      {{ form.description(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                          {% for errors in form.description.errors %}
+                               <span>{{ error }}</span>
+                          {% endfor %}
+                      </div>
+                {% else %}
+                    {{ form.description(class="form-control form-control-lg is-valid") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+
+</div>
+<br><br><br>
+<legend class="border-bottom mb-4">ADVERTISEMENTS:</legend>
+    {% for ad in advts %}   
+        {{loop.index}}.&nbsp;&nbsp;&nbsp; {{ ad.description }}&nbsp;&nbsp; <a href="{{ url_for('delete_advt',id=ad.id) }}" class="btn btn-outline-danger" >Delete Advertisement</a><br>
+    {% endfor %}
+<br><br><br>
+<a href="{{ url_for('home') }}" class="btn btn-outline-dark" >Back To Home</a>
+{% endblock content %}
