@@ -7,11 +7,11 @@ from flask_login import login_user, current_user, logout_user, login_required
 def get_role(user):
     i = 0
     for role in user.roles:
-        if role.name == 'CP':
-            role = 'CP'
+        if role.name == 'Admin':
+            role = 'Admin'
             break
-        elif role.name == 'VCP':
-            role = 'VCP'
+        elif role.name == 'CP':
+            role = 'CP'
             break
         elif role.name == 'EH':
             role = 'ET'
@@ -88,12 +88,12 @@ def logout():
 
 def get_user_by_role():
     users = User.query.all()
-    cp,vcp,dh,eh,prh,tr,prt,et,nm = [],[],[],[],[],[],[],[],[]
+    admin,cp,dh,eh,prh,tr,prt,et,nm = [],[],[],[],[],[],[],[],[]
     for user in users:
         role = get_role(user)
-        if role == 'CP':
+        if role == 'Admin':
             cp.append(user)
-        elif role == 'VCP':
+        elif role == 'CP':
             vcp.append(user)
         elif role == 'DH':
             dh.append(user)
@@ -109,22 +109,22 @@ def get_user_by_role():
             et.append(user)
         else:
             nm.append(user)
-    return cp,vcp,dh,eh,prh,tr,prt,et,nm
+    return admin,cp,dh,eh,prh,tr,prt,et,nm
 
 @app.route("/admin")
 @login_required
 def admin():
+    if get_role(current_user) != 'Admin':
+        return redirect(url_for('home'))
+    admin,cp,dh,eh,prh,tr,prt,et,nm = get_user_by_role()
+    return render_template('admin.html',admin=admin,cp=cp,dh=dh,eh=eh,prh=prh,tr=tr,prt=prt,et=et,nm=nm)
+
+@app.route("/cp_dashboard")
+@login_required
+def cp_dashboard():
     if get_role(current_user) != 'CP':
         return redirect(url_for('home'))
-    cp,vcp,dh,eh,prh,tr,prt,et,nm = get_user_by_role()
-    return render_template('admin.html',cp=cp,vcp=vcp,dh=dh,eh=eh,prh=prh,tr=tr,prt=prt,et=et,nm=nm)
-
-@app.route("/vcp_dashboard")
-@login_required
-def vcp_dashboard():
-    if get_role(current_user) != 'VCP':
-        return redirect(url_for('home'))
-    return render_template('vcp_dashboard.html')
+    return render_template('cp_dashboard.html')
 
 @app.route("/all_roles", methods=['GET', 'POST'])
 @login_required

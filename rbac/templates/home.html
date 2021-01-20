@@ -6,10 +6,10 @@
 </div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     {% if current_user.is_authenticated %}
-        {% if role=='CP' %}
+        {% if role=='Admin' %}
             <a href="{{ url_for('admin') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
-        {% elif role=='VCP' %}
-        <a href="{{ url_for('vcp_dashboard') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
+        {% elif role=='CP' %}
+        <a href="{{ url_for('cp_dashboard') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
         {% endif %}
         &nbsp; &nbsp;
         <a href="{{ url_for('logout') }}" class="nav-link btn btn-outline-info btn-lg">Logout</a>

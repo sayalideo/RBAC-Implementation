@@ -16,9 +16,9 @@
 <a href="{{ url_for('all_roles') }}" class="btn btn-outline-success btn-lg">View All Roles</a><br><br>
 <br><br>
 <h2 class="border-bottom mb-4">ALL USERS :-</h2><br>
-{% if vcp %}
-<h4>Vice Chairperson VCP : </h4><br>
-{% for v in vcp %}
+{% if cp %}
+<h4> Chairperson CP : </h4><br>
+{% for v in cp %}
    {{loop.index}}. &nbsp; {{ v.username }} &nbsp;&nbsp;&nbsp;<a class="btn btn-outline-info" href="{{ url_for('add_roles',id=v.id) }}">View User</a><br><br>
 {% endfor %}
 <br>
