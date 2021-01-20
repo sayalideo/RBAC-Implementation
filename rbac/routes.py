@@ -347,6 +347,22 @@ def eh_dashboard():
         return redirect(url_for('eh_dashboard'))
     return render_template('eh_dashboard.html',form=form,events=events)
 
+@app.route('/update_event/<id>',methods=['GET','POST'])
+@login_required
+def update_event(id):
+    if get_role(current_user) != 'EH':
+        return redirect(url_for('home'))
+    form = ReportForm()
+    e = Event.query.get(id)
+    if form.validate_on_submit():
+        e.description = form.description.data
+        eh_dashboard.status = 0
+        db.session.commit()
+        return redirect(url_for('eh_dashboard'))
+    elif request.method == 'GET':
+        form.description.data = e.description
+    return render_template('update_event.html',form=form)
+
 @app.route("/prh_dashboard", methods=['GET','POST'])
 @login_required
 def prh_dashboard():
@@ -360,3 +376,13 @@ def prh_dashboard():
         db.session.commit()
         return redirect(url_for('prh_dashboard'))
     return render_template('prh_dashboard.html',form=form,advts=advts)
+
+@app.route('/delete_advt/<id>')
+@login_required
+def delete_advt(id):
+    if get_role(current_user) != 'PRH':
+        return redirect(url_for('home'))
+    ad = Advertisement.query.get(id)
+    db.session.delete(ad)
+    db.session.commit()
+    return redirect(url_for('prh_dashboard'))

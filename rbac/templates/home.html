@@ -10,8 +10,12 @@
             <a href="{{ url_for('admin') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
         {% elif role=='CP' %}
         <a href="{{ url_for('cp_dashboard') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
-        {% elif role=='DH' %}
-        <a href="{{ url_for('dh_dashboard') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
+        {% elif role=='EH' %}
+        <a href="{{ url_for('eh_dashboard') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
+        {% elif role=='PRH' %}
+        <a href="{{ url_for('prh_dashboard') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
+        {% elif role=='TR' %}
+        <a href="{{ url_for('tr_dashboard') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
         {% endif %}
         &nbsp; &nbsp;
         <a href="{{ url_for('logout') }}" class="nav-link btn btn-outline-info btn-lg">Logout</a>
