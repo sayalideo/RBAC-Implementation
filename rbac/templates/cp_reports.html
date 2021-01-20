@@ -1,16 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h3>All Reports</h3><hr>
-    <table>
-        <tr>
-            <th>No.</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Modification Needed</th>
-            <th>No Modification Needed</th>
+    <h3>All Reports</h3>
+    <table style="width: 100%; text-align: center;">
+        <tr style="font-size: 20px;">
+            
+                <th>No.</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Modification Needed</th>
+                <th>No Modification Needed</th>
         </tr>
-        
+        <hr>
         {% for report in reports %}
             <tr>
                 <td>{{ loop.index }}</td>
@@ -25,11 +26,12 @@
                         Changes Needed
                     {% endif %}
                 </td>
-                <td><a class="btn btn-outline-warning" role="button" href="{{ url_for('change_report',id=report.id)}}">Change Report</a></td>
+                <td><a class="btn btn-outline-info" role="button" href="{{ url_for('change_report',id=report.id)}}">Change Report</a></td>
                 <td><a class="btn btn-outline-success" role="button" href="{{ url_for('approve_report',id=report.id)}}">Approve Report</a></td>
             </tr>
              
         {% endfor %}
     </table>
-    
+    <br><br><br>
+    <a href="{{ url_for('cp_dashboard') }}" class="btn btn-outline-dark" >Back To Dashboard</a>   
 {% endblock content %}

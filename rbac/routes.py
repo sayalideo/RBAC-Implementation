@@ -251,6 +251,50 @@ def cp_reports():
     reports = Report.query.all()
     return render_template('cp_reports.html',reports=reports)
 
+@app.route("/cp_events", methods=['GET','POST'])
+@login_required
+def cp_events():
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    events = Event.query.all()
+    return render_template('cp_events.html',events=events)
+
+@app.route("/cp_advt", methods=['GET','POST'])
+@login_required
+def cp_advt():
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    advts = Advertisement.query.all()
+    return render_template('cp_advt.html',advts=advts)
+
+@app.route("/cp_funds", methods=['GET','POST'])
+@login_required
+def cp_funds():
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    funds = Fund.query.order_by(Fund.event_date.desc()).all()
+    return render_template('cp_funds.html',funds=funds)
+
+@app.route("/approve_fund/<id>", methods=['GET'])
+@login_required
+def approve_fund(id):
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    f = Fund.query.get(id)
+    f.status = '1'
+    db.session.commit()
+    return redirect(url_for('cp_funds'))
+
+@app.route("/deny_fund/<id>", methods=['GET'])
+@login_required
+def deny_fund(id):
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    f = Fund.query.get(id)
+    f.status = '2'
+    db.session.commit()
+    return redirect(url_for('cp_funds'))
+
 @app.route("/change_report/<id>", methods=['GET'])
 @login_required
 def change_report(id):
@@ -276,7 +320,7 @@ def approve_report(id):
 def tr_dashboard():
     if get_role(current_user) != 'TR':
         return redirect(url_for('home'))
-    funds = Fund.query.all()
+    funds = Fund.query.order_by(Fund.event_date.desc()).all()
     total = 0
     for fund in funds:
         if fund.status == '1':

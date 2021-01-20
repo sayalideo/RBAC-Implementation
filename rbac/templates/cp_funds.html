@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h3>All Funds</h3>
+    <table style="width: 100%; text-align: center;">
+        <tr style="font-size: 20px;">
+            
+                <th>No.</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Approve</th>
+                <th>Deny</th>
+        </tr>
+        <hr>
+        {% for fund in funds %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ fund.description }}</td>
+                <td>{{ fund.amount }}</td>
+                <td>
+                    {% if fund.status == '1' %}
+                        Approved
+                    {% elif fund.status == '0' %}
+                        Approval Pending
+                    {% elif fund.status == '2' %}
+                        Denied
+                    {% endif %}
+                </td>
+                <td><a class="btn btn-outline-success" role="button" href="{{ url_for('approve_fund',id=fund.id)}}">Approve Fund</a></td>
+                <td><a class="btn btn-outline-danger" role="button" href="{{ url_for('deny_fund',id=fund.id)}}">Deny Fund</a></td>
+            </tr>
+             
+        {% endfor %}
+    </table>
+    <br><br><br>
+    <a href="{{ url_for('cp_dashboard') }}" class="btn btn-outline-dark" >Back To Dashboard</a>   
+{% endblock content %}
