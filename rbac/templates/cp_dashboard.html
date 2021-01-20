@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <legend class="border-bottom mb-4">WELCOME CHAIRPERSON!</legend>
+    <br><br>
+    <a class="btn btn-outline-success btn-lg" href="{{ url_for('cp_dashboard') }}">View Reports</a><br><br>
+    <br><br>
+    <a class="btn btn-outline-success btn-lg" href="{{ url_for('cp_dashboard') }}">View Events</a><br><br>
+    <br><br>
+    <a class="btn btn-outline-success btn-lg" href="{{ url_for('cp_dashboard') }}">View Advertisements</a><br><br>
+    <br><br>
+    <a class="btn btn-outline-success btn-lg" href="{{ url_for('cp_dashboard') }}">View Funds</a><br><br>
+    <br><br>
+<a href="{{ url_for('home') }}" class="btn btn-outline-dark" >Back To Home</a>
+{% endblock content %}
