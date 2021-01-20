@@ -6,6 +6,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 def get_role(user):
     i = 0
+    role=''
     for role in user.roles:
         if role.name == 'Admin':
             role = 'Admin'
@@ -92,9 +93,9 @@ def get_user_by_role():
     for user in users:
         role = get_role(user)
         if role == 'Admin':
-            cp.append(user)
+            admin.append(user)
         elif role == 'CP':
-            vcp.append(user)
+            cp.append(user)
         elif role == 'DH':
             dh.append(user)
         elif role == 'EH':
