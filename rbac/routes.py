@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request
 from rbac import app, db, bcrypt
-from rbac.forms import RegistrationForm, LoginForm, AddRoleForm
-from rbac.models import User, Role, UserRoles
+from rbac.forms import RegistrationForm, LoginForm, AddRoleForm, ReportForm
+from rbac.models import User, Role, UserRoles, Report, Event, Fund, Advertisement
 from flask_login import login_user, current_user, logout_user, login_required
 
 def get_role(user):
@@ -108,7 +108,7 @@ def get_user_by_role():
             prt.append(user)
         elif role == 'ET':
             et.append(user)
-        else:
+        elif role == 'NM':
             nm.append(user)
     return admin,cp,dh,eh,prh,tr,prt,et,nm
 
@@ -200,9 +200,19 @@ def nss_member(id):
     db.session.commit()
     return redirect(url_for('dh_dashboard'))
 
-@app.route("/view_reports")
+@app.route("/view_reports", methods=['GET','POST'])
 @login_required
 def view_reports():
     if get_role(current_user) != 'DH':
         return redirect(url_for('home'))
+    reports = Report.query.all()
+    form = ReportForm()
+    if form.validate_on_submit():
+        r = Report(title=form.title.data,description=form.description.data,status=0)
+        db.session.add(r)
+        db.session.commit()
+        return redirect(url_for('view_reports'))
+    return render_template('view_reports.html',form=form,reports=reports)
+
+@app.route('/update_report/<id>',methods=['GET','POST'])
     

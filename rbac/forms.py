@@ -25,6 +25,7 @@ class AddRoleForm(FlaskForm):
     submit = SubmitField('Add Role')
 
 class ReportForm(FlaskForm):
-    title = StringField('Username', validators=[DataRequired(), Length(min=2, max=100)])
-    description = TextAreaField('')
+    title = StringField('Title', validators=[DataRequired(), Length(min=2, max=100)])
+    description = TextAreaField('Description', validators=[DataRequired(), Length(min=2, max=200)])
+    submit = SubmitField('Submit Report')
     
