@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h3>All Reports</h3><hr>
+    <table>
+        {% for report in reports %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ report.title }}</td>
+                <td>{{ report.description }}</td>
+                <td>
+                    {% if report.status == '1' %}
+                        <p>Approved</p>
+                    {% elif report.status == '0' %}
+                        <p>Not Approved</p>
+                    {% elif report.status == '2' %}
+                        <p>Changes Needed</p>
+                    {% endif %}
+                </td>
+            </tr>
+             
+        {% endfor %}
+    </table>
+    
+{% endblock content %}

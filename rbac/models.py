@@ -73,4 +73,4 @@ class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(200), nullable=False)
-    status = db.Column(db.String(20), nullable=False) #0=not approved; 1=approved;
+    status = db.Column(db.String(20), nullable=False) #0=not approved; 1=approved; 2=make changes

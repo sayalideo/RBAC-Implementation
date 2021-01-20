@@ -242,5 +242,30 @@ def delete_report(id):
     db.session.commit()
     return redirect(url_for('view_reports'))
 
+@app.route("/cp_reports", methods=['GET','POST'])
+@login_required
+def cp_reports():
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    reports = Report.query.all()
+    return render_template('cp_reports.html',reports=reports)
 
+@app.route("/change_report/<id>", methods=['GET'])
+@login_required
+def change_report(id):
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    report = Report.query.get(id)
+    report.status = 2
+    db.session.commit()
+    return redirect(url_for('cp_reports'))
 
+@app.route("/approve_report/<id>", methods=['GET'])
+@login_required
+def approve_report(id):
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    report = Report.query.get(id)
+    report.status = 1
+    db.session.commit()
+    return redirect(url_for('cp_reports'))
