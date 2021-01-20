@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 from rbac.models import User
 
@@ -21,6 +21,10 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class AddRoleForm(FlaskForm):
-    name = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    name = StringField('Role', validators=[DataRequired(), Length(min=2, max=20)])
     submit = SubmitField('Add Role')
+
+class ReportForm(FlaskForm):
+    title = StringField('Username', validators=[DataRequired(), Length(min=2, max=100)])
+    description = TextAreaField('')
     

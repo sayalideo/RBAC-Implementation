@@ -178,12 +178,31 @@ def add_roles(id):
 
 @app.route("/dh_dashboard")
 @login_required
-def eh_dashboard():
+def dh_dashboard():
     if get_role(current_user) != 'DH':
         return redirect(url_for('home'))
     users = User.query.all()
     reg_users = []
     for user in users:
-        if user.roles = []:
+        if user.roles == []:
             reg_users.append(user)
-    return render_template('dh_dashboard.html')
+    return render_template('dh_dashboard.html',reg_users=reg_users)
+
+@app.route("/nss_member/<id>")
+@login_required
+def nss_member(id):
+    if get_role(current_user) != 'DH':
+        return redirect(url_for('home'))
+    r = Role.query.filter_by(name='NM').first()
+    u = User.query.get(id)
+    u.roles.append(r)
+    db.session.add(u)
+    db.session.commit()
+    return redirect(url_for('dh_dashboard'))
+
+@app.route("/view_reports")
+@login_required
+def view_reports():
+    if get_role(current_user) != 'DH':
+        return redirect(url_for('home'))
+    
