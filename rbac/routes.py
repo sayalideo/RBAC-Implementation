@@ -259,6 +259,26 @@ def cp_events():
     events = Event.query.all()
     return render_template('cp_events.html',events=events)
 
+@app.route("/modify_event/<id>", methods=['GET','POST'])
+@login_required
+def modify_event(id):
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    e = Event.query.get(id)
+    e.status = '2'
+    db.session.commit()
+    return redirect(url_for('cp_events'))
+
+@app.route("/approve_event/<id>", methods=['GET','POST'])
+@login_required
+def approve_event(id):
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    e = Event.query.get(id)
+    e.status = '1'
+    db.session.commit()
+    return redirect(url_for('cp_events'))
+
 @app.route("/cp_advt", methods=['GET','POST'])
 @login_required
 def cp_advt():
@@ -267,13 +287,42 @@ def cp_advt():
     advts = Advertisement.query.all()
     return render_template('cp_advt.html',advts=advts)
 
+@app.route("/change_advt/<id>", methods=['GET'])
+@login_required
+def change_advt(id):
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    a = Advertisement.query.get(id)
+    a.status = '2'
+    db.session.commit()
+    return redirect(url_for('cp_advt'))
+
+@app.route("/approve_advt/<id>", methods=['GET'])
+@login_required
+def approve_advt(id):
+    if get_role(current_user) != 'CP':
+        return redirect(url_for('home'))
+    a = Advertisement.query.get(id)
+    a.status = '1'
+    db.session.commit()
+    return redirect(url_for('cp_advt'))
+
+def get_total():
+    total = 0
+    funds = Fund.query.all()
+    for fund in funds:
+        if fund.status == '1':
+            total = total + fund.amount
+    return total
+
 @app.route("/cp_funds", methods=['GET','POST'])
 @login_required
 def cp_funds():
     if get_role(current_user) != 'CP':
         return redirect(url_for('home'))
     funds = Fund.query.order_by(Fund.event_date.desc()).all()
-    return render_template('cp_funds.html',funds=funds)
+    total = get_total()
+    return render_template('cp_funds.html',funds=funds,total=total)
 
 @app.route("/approve_fund/<id>", methods=['GET'])
 @login_required
@@ -321,10 +370,7 @@ def tr_dashboard():
     if get_role(current_user) != 'TR':
         return redirect(url_for('home'))
     funds = Fund.query.order_by(Fund.event_date.desc()).all()
-    total = 0
-    for fund in funds:
-        if fund.status == '1':
-            total = total + fund.amount
+    total = get_total()
     form = FundForm()
     if form.validate_on_submit():
         f = Fund(amount=form.amount.data,description=form.description.data, status=0)
@@ -352,11 +398,11 @@ def eh_dashboard():
 def update_event(id):
     if get_role(current_user) != 'EH':
         return redirect(url_for('home'))
-    form = ReportForm()
+    form = EventForm()
     e = Event.query.get(id)
     if form.validate_on_submit():
         e.description = form.description.data
-        eh_dashboard.status = 0
+        e.status = 0
         db.session.commit()
         return redirect(url_for('eh_dashboard'))
     elif request.method == 'GET':

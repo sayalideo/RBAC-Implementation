@@ -1,5 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
+<h2> WELCOME TO ADMIN DASHBOARD!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <span style="white-space: nowrap"> <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary">Logout</a></span></h2>
+   <br>
 <div class="content-section">
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -11,11 +17,10 @@
     {% endif %}
 {% endwith %}
 
-<legend class="border-bottom mb-4">WELCOME ADMIN!</legend>
+<br>
+<a href="{{ url_for('all_roles') }}" class="btn btn-outline-success btn-lg">Manage Roles</a>
 <br><br>
-<a href="{{ url_for('all_roles') }}" class="btn btn-outline-success btn-lg">View All Roles</a><br><br>
-<br><br>
-<h2 class="border-bottom mb-4">ALL USERS :-</h2><br>
+<h3 class="border-bottom mb-4">All Users In The System :-</h3>
 {% if cp %}
 <h4> Chairperson CP : </h4><br>
 {% for v in cp %}

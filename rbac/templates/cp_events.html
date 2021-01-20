@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h3>All Events</h3>
+    <table style="width: 100%; text-align: center;">
+        <tr style="font-size: 20px;">
+            
+                <th>No.</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Modification Needed</th>
+                <th>No Modification Needed</th>
+        </tr>
+        <hr>
+        {% for event in events %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.description }}</td>
+                <td>
+                    {% if event.status == '1' %}
+                        Approved
+                    {% elif event.status == '0' %}
+                        Not Approved
+                    {% elif event.status == '2' %}
+                        Changes Needed
+                    {% endif %}
+                </td>
+                <td><a class="btn btn-outline-info" role="button" href="{{ url_for('modify_event',id=event.id)}}">Modify Event</a></td>
+                <td><a class="btn btn-outline-success" role="button" href="{{ url_for('approve_event',id=event.id)}}">Approve Event</a></td>
+            </tr>
+             
+        {% endfor %}
+    </table>
+    <br><br><br>
+    <a href="{{ url_for('cp_dashboard') }}" class="btn btn-outline-dark" >Back To Dashboard</a>   
+{% endblock content %}

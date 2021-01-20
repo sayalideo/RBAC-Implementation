@@ -1,5 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
+<h2>WELCOME CHAIRPERSON! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span style="white-space: nowrap"> <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary">Logout</a></span></h2>
 <div class="content-section">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -10,16 +16,19 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-
-    <legend class="border-bottom mb-4">WELCOME CHAIRPERSON!</legend>
-    <br><br>
-    <a class="btn btn-outline-success btn-lg" href="{{ url_for('cp_reports') }}">View Reports</a><br><br>
-    <br><br>
-    <a class="btn btn-outline-success btn-lg" href="{{ url_for('cp_events') }}">View Events</a><br><br>
-    <br><br>
-    <a class="btn btn-outline-success btn-lg" href="{{ url_for('cp_advt') }}">View Advertisements</a><br><br>
-    <br><br>
-    <a class="btn btn-outline-success btn-lg" href="{{ url_for('cp_funds') }}">View Funds</a><br><br>
-    <br><br>
+    <div class="container">
+        <table style="width: 100%;">
+            <tr>
+                <td><a class="btn btn-outline-info btn-lg" href="{{ url_for('cp_reports') }}">View Reports</a><br><br></td>
+                <td><a class="btn btn-outline-info btn-lg" href="{{ url_for('cp_events') }}">View Events</a><br><br></td>
+            </tr>
+            
+            <tr>
+                <td><a class="btn btn-outline-info btn-lg" href="{{ url_for('cp_advt') }}">View Advertisements</a></td>
+                <td><a class="btn btn-outline-info btn-lg" href="{{ url_for('cp_funds') }}">View Funds</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
 <a href="{{ url_for('home') }}" class="btn btn-outline-dark" >Back To Home</a>
 {% endblock content %}

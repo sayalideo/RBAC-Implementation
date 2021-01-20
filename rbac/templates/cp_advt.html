@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h3>All Advertisements</h3>
+    <table style="width: 100%; text-align: center;">
+        <tr style="font-size: 20px;">
+            
+                <th>No.</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Modification Needed</th>
+                <th>No Modification Needed</th>
+        </tr>
+        <hr>
+        {% for advt in advts %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ advt.description }}</td>
+                <td>
+                    {% if advt.status == '1' %}
+                        Approved
+                    {% elif advt.status == '0' %}
+                        Not Approved
+                    {% elif advt.status == '2' %}
+                        Changes Needed
+                    {% endif %}
+                </td>
+                <td><a class="btn btn-outline-info" role="button" href="{{ url_for('change_advt',id=advt.id)}}">Change Advertisement</a></td>
+                <td><a class="btn btn-outline-success" role="button" href="{{ url_for('approve_advt',id=advt.id)}}">Approve Advertisement</a></td>
+            </tr>
+             
+        {% endfor %}
+    </table>
+    <br><br><br>
+    <a href="{{ url_for('cp_dashboard') }}" class="btn btn-outline-dark" >Back To Dashboard</a>   
+{% endblock content %}

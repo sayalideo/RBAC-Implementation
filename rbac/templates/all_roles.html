@@ -1,37 +1,48 @@
 {% extends "layout.html" %}
-{% block content %}
-    <div class="jumbotron">
-        <h4>All Roles : <br>
-            <hr>
-            {% for role in roles %}
-            {{ role.name }} &nbsp;&nbsp; <a class="btn btn-outline-danger" href="{{ url_for('delete_role',rid=role.id) }}">Delete Role</a> <br>
-            <br>
-            {% endfor %}
-        </h4>
+{% block outdiv %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="jumbotron">
+                <h4>All Roles : </h4>
+                    <hr>
+                    <table>
+                        {% for role in roles %}
+                        <tr>
+                            <td>{{ role.name }}</td>
+                            <td>&nbsp;</td>
+                            <td><a class="btn btn-outline-danger" href="{{ url_for('delete_role',rid=role.id) }}">Delete Role</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                <fieldset>
+                    <legend>Add A New Role : </legend><hr>
+                    {{ form.name.label(class="form-control-label") }}
+                    {% if form.name.errors %}
+                
+                                {{ form.name(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.name.errors %}
+                                        <span> {{ error }} </span>
+                                    {% endfor %}
+                
+                                </div>
+                    {% else %}
+                
+                                {{ form.name(class="form-control form-control-lg is-valid") }}
+                
+                    {% endif %}<br>
+                    {{ form.submit(class="btn btn-outline-info")}}
+                </fieldset>
+            </form>
+        </div>
     </div>
-    <br><br>
-    <form action="" method="POST">
-        {{ form.hidden_tag() }}
-        <fieldset>
-            <legend>Add A New Role : </legend><hr>
-
-            {% if form.name.errors %}
-        
-                        {{ form.name(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.name.errors %}
-                                <span> {{ error }} </span>
-                            {% endfor %}
-        
-                        </div>
-            {% else %}
-        
-                        {{ form.name(class="form-control form-control-lg is-valid") }}
-        
-            {% endif %}<br>
-            {{ form.submit(class="btn btn-outline-info")}}
-        </fieldset>
-    </form>
-    <br><br><br>
-<a href="{{ url_for('admin') }}" class="btn btn-outline-dark" >Back To Dashboard</a>
-{% endblock content %}
+    <a href="{{ url_for('admin') }}" class="btn btn-outline-dark" >Back To Dashboard</a>
+</div>
+{% endblock outdiv %}
