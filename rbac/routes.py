@@ -196,7 +196,6 @@ def nss_member(id):
     r = Role.query.filter_by(name='NM').first()
     u = User.query.get(id)
     u.roles.append(r)
-    db.session.add(u)
     db.session.commit()
     return redirect(url_for('dh_dashboard'))
 
