@@ -1,5 +1,25 @@
 {% extends "layout.html" %}
 {% block content %}
-    Welcome Documentation Head <br>
+<div class="content-section">
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 
+<legend class="border-bottom mb-4">WELCOME DOCUMENTATION-HEAD!</legend>
+<br><br>
+<a href="{{ url_for('view_reports') }}" class="btn btn-outline-success btn-lg">View Reports</a><br><br>
+<br><br>
+<h2 class="border-bottom mb-4">ALL REGISTERED USERS :-</h2><br>
+{% for user in reg_users %}
+{{loop.index}}. &nbsp; {{ user.username }} &nbsp;&nbsp;&nbsp; <a class="btn btn-outline-info" href="{{ url_for('nss_member',id=user.id) }}">Add Member</a> <br>
+{% endfor %}
+</div>
+<br><br><br>
+<a href="{{ url_for('home') }}" class="btn btn-outline-dark" >Back To Home</a>
 {% endblock content %}
