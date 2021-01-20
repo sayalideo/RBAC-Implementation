@@ -51,15 +51,14 @@
         </div>
     </form>
 </div>
-<br><br><br>
-
-    <legend class="border-bottom mb-4">REPORTS</legend>
-    {% for report in reports %}   
-        {{loop.index}}. &nbsp;{{ report.title }}<br>
-        &nbsp;&nbsp;&nbsp; {{ report.description }}<br>
-    {% endfor %}
 
 </div>
+<br><br><br>
+<legend class="border-bottom mb-4">REPORTS</legend>
+    {% for report in reports %}   
+        {{loop.index}}. &nbsp;{{ report.title }}<br>
+        &nbsp;&nbsp;&nbsp; {{ report.description }}&nbsp;&nbsp; <a href="{{ url_for('update_report',id=report.id) }}" class="btn btn-outline-danger" >Update Report</a> &nbsp; <a href="{{ url_for('delete_report',id=report.id) }}" class="btn btn-outline-danger" >Delete Report</a>
+    {% endfor %}
 <br><br><br>
 <a href="{{ url_for('home') }}" class="btn btn-outline-dark" >Back To Home</a>
 {% endblock content %}
