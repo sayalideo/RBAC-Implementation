@@ -10,6 +10,8 @@
             <a href="{{ url_for('admin') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
         {% elif role=='CP' %}
         <a href="{{ url_for('cp_dashboard') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
+        {% elif role=='DH' %}
+        <a href="{{ url_for('dh_dashboard') }}" class="nav-link btn btn-outline-info btn-lg">Dashboard</a>
         {% endif %}
         &nbsp; &nbsp;
         <a href="{{ url_for('logout') }}" class="nav-link btn btn-outline-info btn-lg">Logout</a>
