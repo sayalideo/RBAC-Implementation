@@ -15,7 +15,7 @@ def get_role(user):
             role = 'CP'
             break
         elif role.name == 'EH':
-            role = 'ET'
+            role = 'EH'
             break
         elif role.name == 'PRH':
             role = 'PRH'

@@ -30,7 +30,7 @@
 {% endfor %}
 <br>
 {% endif %}
-{% if ph %}
+{% if prh %}
 <h4>Public Relations Head PRH : </h4><br>
 {% for v in prh %}
    {{loop.index}}. &nbsp; {{ v.username }} &nbsp;&nbsp;&nbsp;<a class="btn btn-outline-info" href="{{ url_for('add_roles',id=v.id) }}">View User</a><br><br>
