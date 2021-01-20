@@ -175,3 +175,15 @@ def add_roles(id):
     for role in allr:
         allroles.append(role.name)
     return render_template('add_roles.html',form=form,u=u,roles=u.roles,allroles = allroles)
+
+@app.route("/dh_dashboard")
+@login_required
+def eh_dashboard():
+    if get_role(current_user) != 'DH':
+        return redirect(url_for('home'))
+    users = User.query.all()
+    reg_users = []
+    for user in users:
+        if user.roles = []:
+            reg_users.append(user)
+    return render_template('dh_dashboard.html')
