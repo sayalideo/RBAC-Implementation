@@ -16,6 +16,8 @@
                         <p>Changes Needed</p>
                     {% endif %}
                 </td>
+                <td><a href="{{ url_for('change_report',id=report.id)}}">Change Report</a></td>
+                <td><a href="{{ url_for('approve_report',id=report.id)}}">Approve Report</a></td>
             </tr>
              
         {% endfor %}

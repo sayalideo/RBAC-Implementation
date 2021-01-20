@@ -72,6 +72,13 @@
 {% endfor %}
 <br>
 {% endif %}
+{% if rv %}
+<h4>Registered Visitor RV : </h4><br>
+{% for v in rv %}
+   {{loop.index}}. &nbsp; {{ v.username }} &nbsp;&nbsp;&nbsp;<a class="btn btn-outline-info" href="{{ url_for('add_roles',id=v.id) }}">View User</a><br><br>
+{% endfor %}
+{% endif %}
+<br>
 </div>
 <br><br><br>
 <a href="{{ url_for('home') }}" class="btn btn-outline-dark" >Back To Home</a>

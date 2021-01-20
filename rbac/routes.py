@@ -89,7 +89,7 @@ def logout():
 
 def get_user_by_role():
     users = User.query.all()
-    admin,cp,dh,eh,prh,tr,prt,et,nm = [],[],[],[],[],[],[],[],[]
+    admin,cp,dh,eh,prh,tr,prt,et,nm,rv = [],[],[],[],[],[],[],[],[],[]
     for user in users:
         role = get_role(user)
         if role == 'Admin':
@@ -110,15 +110,17 @@ def get_user_by_role():
             et.append(user)
         elif role == 'NM':
             nm.append(user)
-    return admin,cp,dh,eh,prh,tr,prt,et,nm
+        else:
+            rv.append(user)
+    return admin,cp,dh,eh,prh,tr,prt,et,nm,rv
 
 @app.route("/admin")
 @login_required
 def admin():
     if get_role(current_user) != 'Admin':
         return redirect(url_for('home'))
-    admin,cp,dh,eh,prh,tr,prt,et,nm = get_user_by_role()
-    return render_template('admin.html',admin=admin,cp=cp,dh=dh,eh=eh,prh=prh,tr=tr,prt=prt,et=et,nm=nm)
+    admin,cp,dh,eh,prh,tr,prt,et,nm,rv = get_user_by_role()
+    return render_template('admin.html',admin=admin,cp=cp,dh=dh,eh=eh,prh=prh,tr=tr,prt=prt,et=et,nm=nm,rv=rv)
 
 @app.route("/cp_dashboard")
 @login_required
