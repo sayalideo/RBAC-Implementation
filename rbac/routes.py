@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from rbac import app, db, bcrypt
-from rbac.forms import RegistrationForm, LoginForm, AddRoleForm, ReportForm
+from rbac.forms import RegistrationForm, LoginForm, AddRoleForm, ReportForm, FundForm, AdvtForm, EventForm
 from rbac.models import User, Role, UserRoles, Report, Event, Fund, Advertisement
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -268,3 +268,49 @@ def approve_report(id):
     report.status = 1
     db.session.commit()
     return redirect(url_for('cp_reports'))
+
+@app.route("/tr_dashboard", methods=['GET','POST'])
+@login_required
+def tr_dashboard():
+    if get_role(current_user) != 'TR':
+        return redirect(url_for('home'))
+    funds = Fund.query.all()
+    total = 0
+    for fund in funds:
+        if fund.status == '1':
+            total = total + fund.amount
+    form = FundForm()
+    if form.validate_on_submit():
+        f = Fund(amount=form.amount.data,description=form.description.data, status=0)
+        db.session.add(f)
+        db.session.commit()
+        return redirect(url_for('tr_dashboard'))
+    return render_template('tr_dashboard.html',form=form,funds=funds,total=total)
+
+@app.route("/eh_dashboard", methods=['GET','POST'])
+@login_required
+def eh_dashboard():
+    if get_role(current_user) != 'EH':
+        return redirect(url_for('home'))
+    form = EventForm()
+    events = Event.query.all()
+    if form.validate_on_submit():
+        e = Event(description=form.description.data,status=0)
+        db.session.add(e)
+        db.session.commit()
+        return redirect(url_for('eh_dashboard'))
+    return render_template('eh_dashboard.html',form=form,events=events)
+
+@app.route("/prh_dashboard", methods=['GET','POST'])
+@login_required
+def prh_dashboard():
+    if get_role(current_user) != 'PRH':
+        return redirect(url_for('home'))
+    form = AdvtForm()
+    advts = Advertisement.query.all()
+    if form.validate_on_submit():
+        e = Advertisement(description=form.description.data,status=0)
+        db.session.add(e)
+        db.session.commit()
+        return redirect(url_for('prh_dashboard'))
+    return render_template('prh_dashboard.html',form=form,advts=advts)
