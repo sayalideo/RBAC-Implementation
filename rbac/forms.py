@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 from rbac.models import User
 
@@ -28,4 +28,16 @@ class ReportForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(min=2, max=100)])
     description = TextAreaField('Description', validators=[DataRequired(), Length(min=2, max=200)])
     submit = SubmitField('Submit Report')
-    
+
+class FundForm(FlaskForm):
+    amount = IntegerField('Amount')
+    description = TextAreaField('Description', validators=[DataRequired(), Length(min=2, max=200)])
+    submit = SubmitField('Add Fund')
+
+class AdvtForm(FlaskForm):
+    description = TextAreaField('Description', validators=[DataRequired(), Length(min=2, max=200)])
+    submit = SubmitField('Add Advertisement')
+
+class EventForm(FlaskForm):
+    description = TextAreaField('Description', validators=[DataRequired(), Length(min=2, max=200)])
+    submit = SubmitField('Add Event')
