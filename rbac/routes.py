@@ -215,4 +215,32 @@ def view_reports():
     return render_template('view_reports.html',form=form,reports=reports)
 
 @app.route('/update_report/<id>',methods=['GET','POST'])
-    
+@login_required
+def update_report(id):
+    if get_role(current_user) != 'DH':
+        return redirect(url_for('home'))
+    form = ReportForm()
+    r = Report.query.get(id)
+    if form.validate_on_submit():
+        r.title = form.title.data
+        r.description = form.description.data
+        r.status = 0
+        db.session.commit()
+        return redirect(url_for('view_reports'))
+    elif request.method == 'GET':
+        form.title.data = r.title
+        form.description.data = r.description
+    return render_template('update_report.html',form=form)
+
+@app.route('/delete_report/<id>')
+@login_required
+def delete_report(id):
+    if get_role(current_user) != 'DH':
+        return redirect(url_for('home'))
+    r = Report.query.get(id)
+    db.session.delete(r)
+    db.session.commit()
+    return redirect(url_for('view_reports'))
+
+
+
