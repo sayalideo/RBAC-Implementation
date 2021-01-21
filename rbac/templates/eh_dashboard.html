@@ -46,6 +46,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Status</th>
+                <th></th>
         </tr>
         <hr>
         {% for event in events %}
@@ -62,6 +63,7 @@
                         Changes Needed
                     {% endif %}
                 </td>
+                <td><a href="{{ url_for('update_event',id=event.id) }}" class="btn btn-outline-danger" >Update Event</a></td>
             </tr>
              
         {% endfor %}
