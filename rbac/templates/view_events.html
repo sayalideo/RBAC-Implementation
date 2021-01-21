@@ -8,7 +8,6 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Status</th>
-                <th></th>
                 <th>No. of Registered Users</th>
                 <th>No. of Attendees</th>
                 {% if role == 'DH' %}
@@ -31,7 +30,6 @@
                         Changes Needed
                     {% endif %}
                 </td>
-                <td><a href="{{ url_for('update_event',id=event.id) }}" class="btn btn-outline-danger" >Update Event</a></td>
                 <td>{{event.users_registered|length}}</td>
                 <td>{{event.users_attended|length}}</td>
                 {% if role == 'DH' %}

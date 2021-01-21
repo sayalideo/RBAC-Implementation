@@ -1,5 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="content-section">
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 
+<h4 class="border-bottom mb-4">ALL ATTENDEES :-</h4>
+{% for user in users %}
+{{loop.index}}. &nbsp; {{ user.username }}  <br>
+{% endfor %}
+</div>
+<br><br><br>
+<a href="{{ url_for('view_events') }}" class="btn btn-outline-dark" >Go Back</a>
 
 {% endblock content %}
