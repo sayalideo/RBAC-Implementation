@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% block content %}
+<img src="../static/bar.png" alt=""> <br><br>
+<div>
+    <h1>Welcome To National Service Scheme - Institute Portal</h1>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    {% if current_user.is_authenticated %}
+        {% if role=='Admin' %}
+            <a href="{{ url_for('admin') }}" class="nav-link btn btn-outline-dark btn-lg">Dashboard</a>
+        {% elif role=='CP' %}
+        <a href="{{ url_for('cp_dashboard') }}" class="nav-link btn btn-outline-dark btn-lg">Dashboard</a>
+        {% elif role=='DH' %}
+        <a href="{{ url_for('dh_dashboard') }}" class="nav-link btn btn-outline-dark btn-lg">Dashboard</a>
+        {% elif role=='EH' %}
+        <a href="{{ url_for('eh_dashboard') }}" class="nav-link btn btn-outline-dark btn-lg">Dashboard</a>
+        {% elif role=='PRH' %}
+        <a href="{{ url_for('prh_dashboard') }}" class="nav-link btn btn-outline-dark btn-lg">Dashboard</a>
+        {% elif role=='TR' %}
+        <a href="{{ url_for('tr_dashboard') }}" class="nav-link btn btn-outline-dark btn-lg">Dashboard</a>
+        {% endif %}
+        &nbsp; &nbsp;
+        <a href="{{ url_for('logout') }}" class="nav-link btn btn-outline-dark btn-lg">Logout</a>   
+            <a href="{{ url_for('about') }}" style="margin-left: 70%" class="nav-link btn btn-outline-dark btn-lg">About NSS</a>
+    {% else %}
+        <a href="{{ url_for('register') }}" class="nav-link btn btn-outline-dark btn-lg">Register</a> &nbsp; &nbsp;
+        <a href="{{ url_for('login') }}" class="nav-link btn btn-outline-dark btn-lg">Login</a> &nbsp; &nbsp;
+        <a href="{{ url_for('about') }}" style="margin-left: 70%" class="nav-link btn btn-outline-dark btn-lg">About NSS</a>
+    {% endif %}
+</nav>
+
+<div class="about">
+    <h2 style="margin-top: 3rem;">Objective</h2>
+    <hr />
+    <hr />
+    <img src="../static/objective.jpg" style="margin-left: 10%; margin-bottom: 2rem;"  width="80%" height ="40%" alt="">
+
+<ol>
+    <p>The main objectives of National Service Scheme (NSS) are :</p>
+    <li>understand the community in which they work</li>
+    <li>understand themselves in relation to their community</li>
+    <li>identify the needs and problems of the community and involve them in problem-solving</li>
+    <li>develop among themselves a sense of social and civic responsibility</li>
+    <li>utilise their knowledge in finding practical solutions to individual and community problems</li>
+    <li>develop competence required for group-living and sharing of responsibilities</li>
+    <li>gain skills in mobilising community participation</li>
+    <li>acquire leadership qualities and democratic attitudes</li>
+    <li>develop capacity to meet emergencies and natural disasters and</li>
+    <li>practise national integration and social harmony</li>
+</ol>    
+
+<h5>Coverage:</h5>
+<p>Started initially in 37 universities involving 40,000 volunteers, the scheme has grown over the years 
+    and it is implemented today with an involvement of more than 3.8 million volunteers spread over in 396 
+    Universities, Polytechnics and 47 Councils of +2 level. The efforts of NSS volunteers have been widely 
+    acclaimed by the community, universities, colleges and general public as the NSS volunteers have been 
+    rendering selfless service to the community.</p>
+
+<h5>Motto:</h5>
+<p>The Motto of NSS "Not Me But You", reflects the essence of democratic living and upholds the need for 
+    self-less service. NSS helps the students development & appreciation to other person's point of view 
+    and also show consideration towards other living beings. The philosophy of the NSS is a good doctrine 
+    in this motto, which underlines on the belief that the welfare of an individual is ultimately dependent 
+    on the welfare of the society as a whole and therefore, the NSS volunteers shall strive for the 
+    well-being of the society.</p>
+
+<h5>NSS Logo:</h5>
+<p>The logo for the NSS has been based on the giant Rath Wheel of the world famous Konark Sun Temple 
+    (The Black Pagoda) situated in Orissa, India. The Red & Blue colors contained in the logo motivate 
+    the NSS Volunteers to be active & energetic for the nation-building social activities. The wheel 
+    portrays the cycle of creation, preservation and release and signifies the movement in life across 
+    time and space, The wheel thus stands for continuity as well as change and implies the continuous 
+    striving of NSS for social change.</p>
+
+<h5>NSS Badge:</h5>
+<p>The NSS logo is embossed on the badge of NSS. The eight bars in the wheel of NSS logo represent the 
+    24 hours of a day. The red colour indicates that the volunteer is full of young blood that is lively, 
+    active, energetic and full of high spirit. The navy blue colour indicates the cosmos of which the NSS 
+    is tiny part, ready to contribute its share for the welfare of the mankind.</p>
+
+<h5>Financial Arrangements:</h5>
+<p>The scheme is now a central sector scheme to organize Regular Activities (RA) and special Camping 
+    Programmes (SCPs). An amount of Rs.250/-per volunteer per annum is released towards Regular 
+    Activities (RAs) and Rs.450/- per volunteer per Special Camping Programme (SCP) which is of 7-days 
+    duration to be organized in the adopted villages/urban slums. In addition, the Government of India 
+    provides 100% financial assistance to run NSS Regional Directorates, State NSS Cells and Empanelled 
+    Training Institute (ETI).</p>
+</div>
+
+{% endblock content %}
