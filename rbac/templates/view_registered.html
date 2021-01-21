@@ -1,5 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}
 
+<table style="width: 100%; text-align: center;">
+    <tr style="font-size: 20px;">           
+        <th>No.</th>
+        <th>Username</th>
+        <th>Attended</th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for user in users %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{user.username}}</td>
+            <td>
+                {% if status[loop.index-1] == 1%}
+                    YES
+                {% else %}
+                    NO
+                {% endif %}
 
+            </td>
+            <td><a href="{{ url_for('mark_attendance',eid=eid,uid=user.id) }}" class="btn btn-outline-success" >Mark Attendance</a></td>
+            <td><a href="{{ url_for('unmark_attendance',eid=eid,uid=user.id) }}" class="btn btn-outline-danger" >Unmark Attendance</a></td>
+        </tr>
+    {% endfor %}
+</table>
 {% endblock content %}

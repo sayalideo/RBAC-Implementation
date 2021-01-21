@@ -219,7 +219,14 @@ def view_registered(id):
     if get_role(current_user) != 'DH':
         return redirect(url_for('home'))
     users = Event.query.get(id).users_registered
-    return render_template('view_registered.html',users=users)
+    status = []
+    e = Event.query.get(id)
+    for user in users:
+        if e in user.events_attended:
+            status.append(1)
+        else:
+            status.append(0)
+    return render_template('view_registered.html',users=users,eid=id,status=status)
 
 @app.route("/mark_attendance/<eid>/<uid>")
 @login_required
@@ -229,7 +236,7 @@ def mark_attendance(eid,uid):
     a = Attendance(user_id=uid,event_id=eid)
     db.session.add(a)
     db.session.commit()
-    return redirect(url_for('view_registered'))
+    return redirect(url_for('view_registered',id=eid))
 
 @app.route("/unmark_attendance/<eid>/<uid>")
 @login_required
@@ -239,7 +246,7 @@ def unmark_attendance(eid,uid):
     a = Attendance.query.filter_by(user_id=uid).filter_by(event_id=eid).first()
     db.session.delete(a)
     db.session.commit()
-    return redirect(url_for('view_registered'))
+    return redirect(url_for('view_registered',id=eid))
 
 @app.route("/view_attendees/<id>")
 @login_required
