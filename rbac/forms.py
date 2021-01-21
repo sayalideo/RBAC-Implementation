@@ -39,5 +39,6 @@ class AdvtForm(FlaskForm):
     submit = SubmitField('Add Advertisement')
 
 class EventForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=100)])
     description = TextAreaField('Description', validators=[DataRequired(), Length(min=2, max=200)])
     submit = SubmitField('Add Event')

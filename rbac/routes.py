@@ -460,7 +460,7 @@ def nm_dashboard():
 def register_event(eid,uid):
     if get_role(current_user) != 'NM':
         return redirect(url_for('home'))
-    a = Attendance(user_id=uid,event_id=eid)
+    a = Registration(user_id=uid,event_id=eid)
     db.session.add(a)
     db.session.commit()
     return redirect(url_for('nm_dashboard'))
