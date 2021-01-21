@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+<h3>All Events</h3>
+    <table style="width: 100%; text-align: center;">
+        <tr style="font-size: 20px;">
+            
+                <th>No.</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th></th>
+                <th>No. of Registered Users</th>
+                <th>No. of Attendees</th>
+                {% if role == 'DH' %}
+                    <th></th>
+                    <th></th>
+                {% endif %}
+        </tr>
+        <hr>
+        {% for event in events %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.description }}</td>
+                <td>
+                    {% if event.status == '1' %}
+                        Approved
+                    {% elif event.status == '0' %}
+                        Not Approved
+                    {% elif event.status == '2' %}
+                        Changes Needed
+                    {% endif %}
+                </td>
+                <td><a href="{{ url_for('update_event',id=event.id) }}" class="btn btn-outline-danger" >Update Event</a></td>
+                <td>{{event.users_registered|length}}</td>
+                <td>{{event.users_attended|length}}</td>
+                {% if role == 'DH' %}
+                    <th><a href="{{ url_for('view_registered',id=event.id) }}" class="btn btn-outline-info" >View Registered</a></th>
+                    <th><a href="{{ url_for('view_attendees',id=event.id) }}" class="btn btn-outline-success" >View Attendees</a></th>
+                {% endif %}
+            </tr>
+             
+        {% endfor %}
+    </table>
+<br><br><br>
+<a href="{{ url_for('home') }}" class="btn btn-outline-dark" >Back To Home</a>
+{% endblock content %}

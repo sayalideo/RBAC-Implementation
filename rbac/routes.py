@@ -199,10 +199,33 @@ def dh_dashboard():
         return redirect(url_for('home'))
     users = User.query.all()
     reg_users = []
+    nm = 0
     for user in users:
         if user.roles == []:
             reg_users.append(user)
-    return render_template('dh_dashboard.html',reg_users=reg_users)
+        elif get_role(user) == 'NM':
+            nm = nm+1
+    return render_template('dh_dashboard.html',reg_users=reg_users,nm=nm)
+
+@app.route('/view_events')
+def view_events():
+    role = get_role(current_user)
+    events = Event.query.filter_by(status='1')
+    return render_template('view_events.html',role=role,events=events)
+
+@app.route("/view_registered/<id>")
+@login_required
+def view_registered(id):
+    if get_role(current_user) != 'DH':
+        return redirect(url_for('home'))
+    return render_template('view_registered.html')
+
+@app.route("/view_attendees/<id>")
+@login_required
+def view_attendees(id):
+    if get_role(current_user) != 'DH':
+        return redirect(url_for('home'))
+    return render_template('view_attendees.html')
 
 @app.route("/nss_member/<id>")
 @login_required
@@ -452,7 +475,7 @@ def delete_advt(id):
 def nm_dashboard():
     if get_role(current_user) != 'NM':
         return redirect(url_for('home'))
-    events = Event.query.all()
+    events = Event.query.filter_by(status='1')
     return render_template('nm_dashboard.html',events=events,registered=current_user.events_registered,attended=current_user.events_attended)
 
 @app.route('/register_event/<eid>/<uid>')
@@ -460,7 +483,7 @@ def nm_dashboard():
 def register_event(eid,uid):
     if get_role(current_user) != 'NM':
         return redirect(url_for('home'))
-    a = Attendance(user_id=uid,event_id=eid)
+    a = Registration(user_id=uid,event_id=eid)
     db.session.add(a)
     db.session.commit()
     return redirect(url_for('nm_dashboard'))

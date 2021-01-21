@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
+<h2>WELCOME DOCUMENTATION-HEAD!</h2>
+<br>
 <div class="content-section">
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -11,13 +13,14 @@
     {% endif %}
 {% endwith %}
 
-<legend class="border-bottom mb-4">WELCOME DOCUMENTATION-HEAD!</legend>
-<br><br>
-<a href="{{ url_for('view_reports') }}" class="btn btn-outline-success btn-lg">View Reports</a><br><br>
-<br><br>
-<h2 class="border-bottom mb-4">ALL REGISTERED USERS :-</h2><br>
+<br>
+<a href="{{ url_for('view_reports') }}" class="btn btn-outline-success btn-lg">Manage Reports</a>
+<a href="{{ url_for('view_events') }}" class="btn btn-outline-success btn-lg">View Events</a><br><br>
+<br>
+<h3><b>Total Number of NSS Members : {{nm}}</b></h3><br>
+<h4 class="border-bottom mb-4">ALL REGISTERED USERS :-</h4>
 {% for user in reg_users %}
-{{loop.index}}. &nbsp; {{ user.username }} &nbsp;&nbsp;&nbsp; <a class="btn btn-outline-info" href="{{ url_for('nss_member',id=user.id) }}">Add Member</a> <br>
+{{loop.index}}. &nbsp; {{ user.username }} &nbsp;&nbsp;&nbsp; <a class="btn btn-outline-info" href="{{ url_for('nss_member',id=user.id) }}">Add NSS Member</a> <br>
 {% endfor %}
 </div>
 <br><br><br>
