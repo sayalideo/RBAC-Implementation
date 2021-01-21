@@ -180,11 +180,35 @@ def add_roles(id):
     u = User.query.get(id)
     if form.validate_on_submit():
         r = Role.query.filter_by(name=form.name.data).first()
-        if r.name == 'CP':
+        if r and r.name == 'CP':
             cp = list(UserRoles.query.filter_by(role_id=id))
             if len(cp) != 0:
                 flash('Chairperson Already Exists! Failed To Assign Role','danger')
                 return redirect(url_for('add_roles',id=id))
+        if r and r.name == 'EH':
+            for role in u.roles:
+                n = role.name
+                if n == 'PRH' or n == 'DH' or n=='TR':
+                    flash('EH violates Mutual Exclusion Constraint! Failed To Assign Role','danger')
+                    return redirect(url_for('add_roles',id=id))
+        if r and r.name == 'PRH':
+            for role in u.roles:
+                n = role.name
+                if n == 'EH' or n == 'DH' or n=='TR':
+                    flash('PRH violates Mutual Exclusion Constraint! Failed To Assign Role','danger')
+                    return redirect(url_for('add_roles',id=id))
+        if r and r.name == 'DH':
+            for role in u.roles:
+                n = role.name
+                if n == 'PRH' or n == 'EH' or n=='TR':
+                    flash('DH violates Mutual Exclusion Constraint! Failed To Assign Role','danger')
+                    return redirect(url_for('add_roles',id=id))
+        if r and r.name == 'TR':
+            for role in u.roles:
+                n = role.name
+                if n == 'PRH' or n == 'DH' or n=='EH':
+                    flash('TR violates Mutual Exclusion Constraint! Failed To Assign Role','danger')
+                    return redirect(url_for('add_roles',id=id))
         if r:
             u.roles.append(r)
             db.session.add(u)
