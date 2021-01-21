@@ -51,6 +51,20 @@ def home():
         role = get_role(current_user)
     return render_template('home.html',role=role)
 
+@app.route("/about")
+def about():
+    role =''
+    if current_user.is_authenticated:
+        role = get_role(current_user)
+    return render_template('about.html',role=role,title='About NSS')
+
+@app.route("/objective")
+def objective():
+    role =''
+    if current_user.is_authenticated:
+        role = get_role(current_user)
+    return render_template('objective.html',role=role,title='Objective')
+
 @app.route("/register", methods=['GET','POST'])
 def register():
     if current_user.is_authenticated:
