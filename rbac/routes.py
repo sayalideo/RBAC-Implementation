@@ -453,7 +453,6 @@ def nm_dashboard():
     if get_role(current_user) != 'NM':
         return redirect(url_for('home'))
     events = Event.query.all()
-
     return render_template('nm_dashboard.html',events=events,registered=current_user.events_registered,attended=current_user.events_attended)
 
 @app.route('/register_event/<eid>/<uid>')
