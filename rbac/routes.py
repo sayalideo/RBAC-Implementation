@@ -209,7 +209,9 @@ def dh_dashboard():
 
 @app.route('/view_events')
 def view_events():
-    role = get_role(current_user)
+    role =''
+    if current_user.is_authenticated:
+        role = get_role(current_user)
     events = Event.query.filter_by(status='1')
     return render_template('view_events.html',role=role,events=events)
 
