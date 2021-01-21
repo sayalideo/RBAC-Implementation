@@ -18,6 +18,8 @@
         <a href="{{ url_for('prh_dashboard') }}" class="nav-link btn btn-outline-dark btn-lg">Dashboard</a>
         {% elif role=='TR' %}
         <a href="{{ url_for('tr_dashboard') }}" class="nav-link btn btn-outline-dark btn-lg">Dashboard</a>
+        {% elif role=='NM' %}
+        <a href="{{ url_for('nm_dashboard') }}" class="nav-link btn btn-outline-dark btn-lg">Dashboard</a>
         {% endif %}
         &nbsp; &nbsp;
         <a href="{{ url_for('logout') }}" class="nav-link btn btn-outline-dark btn-lg">Logout</a> 

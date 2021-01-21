@@ -1,5 +1,78 @@
 {% extends "layout.html" %}
 {% block content %}
-
+<div class="content-section">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <legend class="border-bottom mb-4">WELCOME NSS-MEMBER!</legend>
+    <br><br>
+    <h3>All Events</h3>
+    <table style="width: 100%; text-align: center;">
+        <tr style="font-size: 20px;">
+            
+                <th>No.</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th></th>
+        </tr>
+        <hr>
+        {% for event in events %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.description }}</td>
+                <td><a class="btn btn-outline-info" role="button" href="{{ url_for('register_event',eid=event.id,uid=current_user.id)}}">Register</a></td>
+            </tr>
+             
+        {% endfor %}
+    </table>
+    <br><br>
+    <h3>All Registered Events</h3>
+    <table style="width: 100%; text-align: center;">
+        <tr style="font-size: 20px;">
+            
+                <th>No.</th>
+                <th>Name</th>
+                <th>Description</th>
+        </tr>
+        <hr>
+        {% for event in registered %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.description }}</td>
+            </tr>
+             
+        {% endfor %}
+    </table>
+    <br><br>
+    <h3>All Attended Events</h3>
+    <table style="width: 100%; text-align: center;">
+        <tr style="font-size: 20px;">
+            
+                <th>No.</th>
+                <th>Name</th>
+                <th>Description</th>
+        </tr>
+        <hr>
+        {% for event in attended %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.description }}</td>
+            </tr>
+             
+        {% endfor %}
+    </table>
+    </div>
+    <br><br><br>
+    <a href="{{ url_for('home') }}" class="btn btn-outline-dark" >Back To Home</a>
 
 {% endblock content %}
