@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request
 from rbac import app, db, bcrypt
 from rbac.forms import RegistrationForm, LoginForm, AddRoleForm, ReportForm, FundForm, AdvtForm, EventForm
-from rbac.models import User, Role, UserRoles, Report, Event, Fund, Advertisement
+from rbac.models import User, Role, UserRoles, Report, Event, Fund, Advertisement, Attendance, Registration
 from flask_login import login_user, current_user, logout_user, login_required
 
 def get_role(user):
@@ -446,3 +446,22 @@ def delete_advt(id):
     db.session.delete(ad)
     db.session.commit()
     return redirect(url_for('prh_dashboard'))
+
+@app.route('/nm_dashboard')
+@login_required
+def nm_dashboard():
+    if get_role(current_user) != 'NM':
+        return redirect(url_for('home'))
+    events = Event.query.all()
+    return render_template('nm_dashboard.html',events=events)
+
+@app.route('/register_event/<eid>/<uid>')
+@login_required
+def register_event(eid,uid):
+    if get_role(current_user) != 'NM':
+        return redirect(url_for('home'))
+    a = Attendance(user_id=uid,event_id=eid)
+    db.session.add(a)
+    db.session.commit()
+    return redirect(url_for('nm_dashboard'))
+    
