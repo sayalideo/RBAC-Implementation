@@ -38,4 +38,3 @@ Step VI : Run the code using :
   $ flask run
 
 Now, view the running application on localhost:5000
-
