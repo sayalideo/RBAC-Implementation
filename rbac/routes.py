@@ -218,14 +218,36 @@ def view_events():
 def view_registered(id):
     if get_role(current_user) != 'DH':
         return redirect(url_for('home'))
-    return render_template('view_registered.html')
+    users = Event.query.get(id).users_registered
+    return render_template('view_registered.html',users=users)
+
+@app.route("/mark_attendance/<eid>/<uid>")
+@login_required
+def mark_attendance(eid,uid):
+    if get_role(current_user) != 'DH':
+        return redirect(url_for('home'))
+    a = Attendance(user_id=uid,event_id=eid)
+    db.session.add(a)
+    db.session.commit()
+    return redirect(url_for('view_registered'))
+
+@app.route("/unmark_attendance/<eid>/<uid>")
+@login_required
+def unmark_attendance(eid,uid):
+    if get_role(current_user) != 'DH':
+        return redirect(url_for('home'))
+    a = Attendance.query.filter_by(user_id=uid).filter_by(event_id=eid).first()
+    db.session.delete(a)
+    db.session.commit()
+    return redirect(url_for('view_registered'))
 
 @app.route("/view_attendees/<id>")
 @login_required
 def view_attendees(id):
     if get_role(current_user) != 'DH':
         return redirect(url_for('home'))
-    return render_template('view_attendees.html')
+    users = Event.query.get(id).users_attended
+    return render_template('view_attendees.html',users=users)
 
 @app.route("/nss_member/<id>")
 @login_required
