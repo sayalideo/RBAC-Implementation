@@ -54,11 +54,34 @@
 
 </div>
 <br><br><br>
-<legend class="border-bottom mb-4">REPORTS</legend>
-    {% for report in reports %}   
-        {{loop.index}}. &nbsp;{{ report.title }}<br>
-        &nbsp;&nbsp;&nbsp; {{ report.description }}&nbsp;&nbsp; <a href="{{ url_for('update_report',id=report.id) }}" class="btn btn-outline-danger" >Update Report</a> &nbsp; <a href="{{ url_for('delete_report',id=report.id) }}" class="btn btn-outline-danger" >Delete Report</a>
-    {% endfor %}
+<h3>All Reports</h3>
+    <table style="width: 100%; text-align: center;">
+        <tr style="font-size: 20px;">
+            
+                <th>No.</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+        </tr>
+        <hr>
+        {% for report in reports %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ report.title }}</td>
+                <td>{{ report.description }}</td>
+                <td>
+                    {% if report.status == '1' %}
+                        Approved
+                    {% elif report.status == '0' %}
+                        Not Approved
+                    {% elif report.status == '2' %}
+                        Changes Needed
+                    {% endif %}
+                </td>
+            </tr>
+             
+        {% endfor %}
+    </table>
 <br><br><br>
-<a href="{{ url_for('home') }}" class="btn btn-outline-dark" >Back To Home</a>
+<a href="{{ url_for('dh_dashboard') }}" class="btn btn-outline-dark" >Back To Dashboard</a> 
 {% endblock content %}

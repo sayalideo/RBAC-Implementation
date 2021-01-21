@@ -38,10 +38,34 @@
 
 </div>
 <br><br><br>
-<legend class="border-bottom mb-4">EVENTS:</legend>
-    {% for event in events %}   
-        {{loop.index}}.&nbsp;&nbsp;&nbsp; {{ event.description }}&nbsp;&nbsp; <a href="{{ url_for('update_event',id=event.id) }}" class="btn btn-outline-danger" >Update Event</a> <br>
-    {% endfor %}
+<h3>All Events</h3>
+    <table style="width: 100%; text-align: center;">
+        <tr style="font-size: 20px;">
+            
+                <th>No.</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+        </tr>
+        <hr>
+        {% for event in events %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.description }}</td>
+                <td>
+                    {% if event.status == '1' %}
+                        Approved
+                    {% elif event.status == '0' %}
+                        Not Approved
+                    {% elif event.status == '2' %}
+                        Changes Needed
+                    {% endif %}
+                </td>
+            </tr>
+             
+        {% endfor %}
+    </table>
 <br><br><br>
 <a href="{{ url_for('home') }}" class="btn btn-outline-dark" >Back To Home</a>
 {% endblock content %}

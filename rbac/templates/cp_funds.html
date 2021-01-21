@@ -17,7 +17,7 @@
             <tr>
                 <td>{{ loop.index }}</td>
                 <td>{{ fund.description }}</td>
-                <td>{{ fund.amount }}</td>
+                <td>Rs. {{ fund.amount }}</td>
                 <td>
                     {% if fund.status == '1' %}
                         Approved
