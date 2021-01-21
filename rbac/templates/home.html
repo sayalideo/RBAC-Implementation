@@ -21,12 +21,14 @@
         {% endif %}
         &nbsp; &nbsp;
         <a href="{{ url_for('logout') }}" class="nav-link btn btn-outline-dark btn-lg">Logout</a>
-        <a href="{{ url_for('about') }}" style="margin-left: 70%" class="nav-link btn btn-outline-dark btn-lg">About NSS</a>
+        <a href="{{ url_for('about') }}" style="margin-left: 60%" class="nav-link btn btn-outline-dark btn-lg">About NSS</a>&nbsp; &nbsp;
+        <a href="{{ url_for('objective') }}" class="nav-link btn btn-outline-dark btn-lg">Objective</a>
         
     {% else %}
         <a href="{{ url_for('register') }}" class="nav-link btn btn-outline-dark btn-lg">Register</a> &nbsp; &nbsp;
         <a href="{{ url_for('login') }}" class="nav-link btn btn-outline-dark btn-lg">Login</a> &nbsp; &nbsp;
-        <a href="{{ url_for('about') }}" style="margin-left: 70%" class="nav-link btn btn-outline-dark btn-lg">About NSS</a> 
+        <a href="{{ url_for('about') }}" style="margin-left: 60%" class="nav-link btn btn-outline-dark btn-lg">About NSS</a> &nbsp; &nbsp;
+        <a href="{{ url_for('objective') }}" class="nav-link btn btn-outline-dark btn-lg">Objective</a>
     {% endif %}
 </nav>
 <br>
