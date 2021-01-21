@@ -1,5 +1,6 @@
 from rbac import db, login_manager
 from flask_login import UserMixin
+from sqlalchemy.orm import relationship, backref
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from datetime import datetime
@@ -13,7 +14,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     roles = db.relationship('Role', secondary='user_roles')
-
+    events_attended = relationship("Event", secondary="attendance") #user.events_attended
+    events_registered = relationship("Event", secondary="registration") #user.events_registered
     def __repr__(self):
         return f"User('{self.username}')"
 
@@ -50,6 +52,8 @@ class Event(db.Model):
     description = db.Column(db.String(200), unique=True, nullable=False)
     event_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     status = db.Column(db.String(20), nullable=False, default=False) #0=not approved; 1=approved; 2=done
+    users_attended = relationship("User", secondary="attendance") #event.users_attended
+    users_registered = relationship("User", secondary="registration") #event.users_registered
 
 class Fund(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -74,3 +78,17 @@ class Report(db.Model):
     title = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(200), nullable=False)
     status = db.Column(db.String(20), nullable=False) #0=not approved; 1=approved; 2=make changes
+
+class Registration(db.Model):
+    id =  db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
+    user = relationship(User, backref=backref("registration", cascade="all, delete-orphan")) #user.attendance
+    event = relationship(Event, backref=backref("registration", cascade="all, delete-orphan")) 
+
+class Attendance(db.Model):
+    id =  db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
+    user = relationship(User, backref=backref("attendance", cascade="all, delete-orphan")) #user.attendance
+    event = relationship(Event, backref=backref("attendance", cascade="all, delete-orphan")) 
