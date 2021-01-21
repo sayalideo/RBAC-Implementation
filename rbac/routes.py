@@ -180,6 +180,11 @@ def add_roles(id):
     u = User.query.get(id)
     if form.validate_on_submit():
         r = Role.query.filter_by(name=form.name.data).first()
+        if r.name == 'CP':
+            cp = list(UserRoles.query.filter_by(role_id=id))
+            if len(cp) != 0:
+                flash('Chairperson Already Exists! Failed To Assign Role','danger')
+                return redirect(url_for('add_roles',id=id))
         if r:
             u.roles.append(r)
             db.session.add(u)
@@ -263,7 +268,11 @@ def view_attendees(id):
 def nss_member(id):
     if get_role(current_user) != 'DH':
         return redirect(url_for('home'))
-    r = Role.query.filter_by(name='NM').first()
+    nm = Role.query.filter_by(name='NM')
+    r = nm.first()
+    if len(list(nm))>=10:
+        flash('Intake Full! Failed to Add as NSS Member','danger')
+        return redirect(url_for('dh_dashboard'))
     u = User.query.get(id)
     u.roles.append(r)
     db.session.commit()
@@ -469,11 +478,14 @@ def update_event(id):
     form = EventForm()
     e = Event.query.get(id)
     if form.validate_on_submit():
+        print('in')
+        e.name = form.name.data
         e.description = form.description.data
         e.status = 0
         db.session.commit()
         return redirect(url_for('eh_dashboard'))
     elif request.method == 'GET':
+        form.name.data = e.name
         form.description.data = e.description
     return render_template('update_event.html',form=form)
 

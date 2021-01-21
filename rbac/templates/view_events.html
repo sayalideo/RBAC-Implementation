@@ -7,7 +7,6 @@
                 <th>No.</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Status</th>
                 <th>No. of Registered Users</th>
                 <th>No. of Attendees</th>
                 {% if role == 'DH' %}
@@ -21,15 +20,6 @@
                 <td>{{ loop.index }}</td>
                 <td>{{ event.name }}</td>
                 <td>{{ event.description }}</td>
-                <td>
-                    {% if event.status == '1' %}
-                        Approved
-                    {% elif event.status == '0' %}
-                        Not Approved
-                    {% elif event.status == '2' %}
-                        Changes Needed
-                    {% endif %}
-                </td>
                 <td>{{event.users_registered|length}}</td>
                 <td>{{event.users_attended|length}}</td>
                 {% if role == 'DH' %}

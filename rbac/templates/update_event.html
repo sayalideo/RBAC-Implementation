@@ -18,6 +18,17 @@
             <legend class="border-bottom mb-4">UPDATE EVENT</legend>
             
             <div class="form-group">
+                {{ form.name.label(class="form-control-label") }}
+                {% if form.name.errors %}
+                      {{ form.name(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                          {% for errors in form.name.errors %}
+                               <span>{{ error }}</span>
+                          {% endfor %}
+                      </div>
+                {% else %}
+                    {{ form.name(class="form-control form-control-lg is-valid") }}
+                {% endif %}
                 {{ form.description.label(class="form-control-label") }}
                 {% if form.description.errors %}
                       {{ form.description(class="form-control form-control-lg is-invalid") }}
