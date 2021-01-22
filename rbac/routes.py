@@ -181,7 +181,7 @@ def add_roles(id):
     if form.validate_on_submit():
         r = Role.query.filter_by(name=form.name.data).first()
         if r and r.name == 'CP':
-            cp = list(UserRoles.query.filter_by(role_id=id))
+            cp = list(UserRoles.query.filter_by(role_id=r.id))
             if len(cp) != 0:
                 flash('Chairperson Already Exists! Failed To Assign Role','danger')
                 return redirect(url_for('add_roles',id=id))
