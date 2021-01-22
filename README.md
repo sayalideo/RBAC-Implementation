@@ -1,5 +1,5 @@
 # RBAC-Implementation
-An NSS Council Management System which implements the RBAC (Role Based Access Control) Model.
+An NSS Role Management System which implements the RBAC (Role Based Access Control) Model.
 
 Step I : Installing Python : 
   sudo apt update
